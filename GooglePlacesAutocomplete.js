@@ -647,14 +647,14 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
     );
   };
 
-  const _renderSeparator = (sectionID, rowID) => {
+  const _renderSeparator = (rowID) => {
     if (rowID === dataSource.length - 1) {
       return null;
     }
 
     return (
       <View
-        key={`${sectionID}-${rowID}`}
+        key={`${rowID}`}
         style={[
           props.suppressDefaultStyles ? {} : defaultStyles.separator,
           props.styles.separator,
@@ -757,27 +757,18 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
       listViewDisplayed === true
     ) {
       return (
-        <FlatList
-          nativeID='result-list-id'
-          scrollEnabled={!props.disableScroll}
+        <FlatterList
+          data={dataSource}
+          keyExtractor={keyGenerator}
+          renderItem={_renderRow}
+          renderSeparator={_renderSeparator}
+          ListEmptyComponent={
+            stateText.length > props.minLength && props.listEmptyComponent
+          }
           style={[
             props.suppressDefaultStyles ? {} : defaultStyles.listView,
             props.styles.listView,
           ]}
-          data={dataSource}
-          keyExtractor={keyGenerator}
-          extraData={[dataSource, props]}
-          ItemSeparatorComponent={_renderSeparator}
-          renderItem={({ item, index }) => _renderRow(item, index)}
-          ListEmptyComponent={
-            stateText.length > props.minLength && props.listEmptyComponent
-          }
-          ListHeaderComponent={
-            props.renderHeaderComponent &&
-            props.renderHeaderComponent(stateText)
-          }
-          ListFooterComponent={_renderPoweredLogo}
-          {...props}
         />
       );
     }
@@ -945,3 +936,39 @@ GooglePlacesAutocomplete.defaultProps = {
 };
 
 export default { GooglePlacesAutocomplete };
+
+function FlatterList({
+  data,
+  keyExtractor,
+  renderItem,
+  renderSeparator,
+  ListEmptyComponent,
+  style,
+}) {
+  return (
+    <View
+      nativeID='result-list-id'
+      style={style}
+    >
+      {data.length > 0 ? data.map((item, index) => {
+        return (
+          <React.Fragment key={keyExtractor()}>
+            {renderItem(item, index)}
+            {renderSeparator(index)}
+          </React.Fragment>
+        )
+      }) : (
+        ListEmptyComponent && <ListEmptyComponent />
+      )}
+    </View>
+  )
+}
+
+FlatterList.propTypes = {
+  data: PropTypes.array,
+  keyExtractor: PropTypes.func,
+  renderItem: PropTypes.func,
+  renderSeparator: PropTypes.func,
+  ListEmptyComponent: PropTypes.func,
+  style: PropTypes.any
+}
