@@ -548,7 +548,7 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
             }
           }
         } else {
-          // console.warn("google places autocomplete: request could not be completed or has been aborted");
+          props.onFail("Request could not be completed or has been aborted")
         }
       };
 
