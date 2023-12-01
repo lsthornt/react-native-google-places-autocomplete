@@ -283,6 +283,19 @@ interface GooglePlaceData {
   structured_formatting: StructuredFormatting;
 }
 
+type GooglePlaceRowData = GooglePlaceData;
+
+type CurrentLocationRow = {
+  description: string;
+  isCurrentLocation: true;
+};
+
+type PredefinedPlaceRow = Place & {
+  isPredefinedPlace: true;
+};
+
+type RowData = GooglePlaceRowData | CurrentLocationRow | PredefinedPlaceRow;
+
 interface Point {
   lat: number;
   lng: number;
@@ -420,7 +433,7 @@ interface GooglePlacesAutocompleteProps {
   renderLeftButton?: () => JSX.Element | React.ComponentType<{}>;
   renderRightButton?: () => JSX.Element | React.ComponentType<{}>;
   renderRow?: (
-    data: GooglePlaceData,
+    data: RowData,
     index: number,
   ) => JSX.Element | React.ComponentType<{}>;
   /** sets the request URL to something other than the google api.  Helpful if you want web support or to use your own api. */

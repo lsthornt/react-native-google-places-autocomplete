@@ -13,7 +13,6 @@ import React, {
 } from 'react';
 import {
   ActivityIndicator,
-  FlatList,
   Image,
   Keyboard,
   Platform,
