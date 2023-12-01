@@ -283,18 +283,18 @@ interface GooglePlaceData {
   structured_formatting: StructuredFormatting;
 }
 
-type GooglePlaceRowData = GooglePlaceData;
+interface GooglePlaceRowData extends GooglePlaceData {}
 
-type CurrentLocationRow = {
+interface CurrentLocationRow  {
   description: string;
   isCurrentLocation: true;
 };
 
-type PredefinedPlaceRow = Place & {
+interface PredefinedPlaceRow extends Place {
   isPredefinedPlace: true;
 };
 
-type RowData = GooglePlaceRowData | CurrentLocationRow | PredefinedPlaceRow;
+export type RowData = GooglePlaceRowData | CurrentLocationRow | PredefinedPlaceRow;
 
 interface Point {
   lat: number;
