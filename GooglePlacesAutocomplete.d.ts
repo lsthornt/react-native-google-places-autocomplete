@@ -296,6 +296,25 @@ interface PredefinedPlaceRow extends Place {
 
 export type RowData = GooglePlaceRowData | CurrentLocationRow | PredefinedPlaceRow;
 
+interface CurrentLocationData {
+  description: string;
+  geometry: {
+    location: Point;
+  };
+}
+
+interface PredefinedPlace {
+  description: string;
+  formatted_address?: string;
+  name?: string;
+}
+
+export type OnPressPayload =
+  [GooglePlaceData, GooglePlaceDetail] |
+  [GooglePlaceData, null] |
+  [CurrentLocationData, CurrentLocationData] |
+  [PredefinedPlace, PredefinedPlace];
+
 interface Point {
   lat: number;
   lng: number;
@@ -421,10 +440,10 @@ interface GooglePlacesAutocompleteProps {
   numberOfLines?: number;
   onFail?: (error?: any) => void;
   onNotFound?: () => void;
-  onPress?: (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
+  onPress?: (...params: OnPressPayload) => void;
   onTimeout?: () => void;
   placeholder: string;
-  predefinedPlaces?: Place[];
+  predefinedPlaces?: PredefinedPlace[];
   predefinedPlacesAlwaysVisible?: boolean;
   preProcess?: (text: string) => string;
   query: Query | Object;
