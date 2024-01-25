@@ -283,6 +283,38 @@ interface GooglePlaceData {
   structured_formatting: StructuredFormatting;
 }
 
+interface GooglePlaceRowData extends GooglePlaceData {}
+
+interface CurrentLocationRow  {
+  description: string;
+  isCurrentLocation: true;
+};
+
+interface PredefinedPlaceRow extends Place {
+  isPredefinedPlace: true;
+};
+
+export type RowData = GooglePlaceRowData | CurrentLocationRow | PredefinedPlaceRow;
+
+interface CurrentLocationData {
+  description: string;
+  geometry: {
+    location: Point;
+  };
+}
+
+interface PredefinedPlace {
+  description: string;
+  formatted_address?: string;
+  name?: string;
+}
+
+export type OnPressPayload =
+  [GooglePlaceData, GooglePlaceDetail] |
+  [GooglePlaceData, null] |
+  [CurrentLocationData, CurrentLocationData] |
+  [PredefinedPlace, PredefinedPlace];
+
 interface Point {
   lat: number;
   lng: number;
@@ -408,10 +440,10 @@ interface GooglePlacesAutocompleteProps {
   numberOfLines?: number;
   onFail?: (error?: any) => void;
   onNotFound?: () => void;
-  onPress?: (data: GooglePlaceData, detail: GooglePlaceDetail | null) => void;
+  onPress?: (...params: OnPressPayload) => void;
   onTimeout?: () => void;
   placeholder: string;
-  predefinedPlaces?: Place[];
+  predefinedPlaces?: PredefinedPlace[];
   predefinedPlacesAlwaysVisible?: boolean;
   preProcess?: (text: string) => string;
   query: Query | Object;
@@ -420,7 +452,7 @@ interface GooglePlacesAutocompleteProps {
   renderLeftButton?: () => JSX.Element | React.ComponentType<{}>;
   renderRightButton?: () => JSX.Element | React.ComponentType<{}>;
   renderRow?: (
-    data: GooglePlaceData,
+    data: RowData,
     index: number,
   ) => JSX.Element | React.ComponentType<{}>;
   /** sets the request URL to something other than the google api.  Helpful if you want web support or to use your own api. */
@@ -434,7 +466,7 @@ interface GooglePlacesAutocompleteProps {
 }
 
 export type GooglePlacesAutocompleteRef = {
-  setAddressText(address: string): void;
+  setAddressText(address: string, refresh: boolean = false): void;
   getAddressText(): string;
   getCurrentLocation(): void;
 } & TextInput;

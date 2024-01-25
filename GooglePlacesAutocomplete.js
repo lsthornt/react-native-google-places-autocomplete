@@ -13,7 +13,6 @@ import React, {
 } from 'react';
 import {
   ActivityIndicator,
-  FlatList,
   Image,
   Keyboard,
   Platform,
@@ -179,8 +178,13 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
   }, [buildRowsFromResults, props.predefinedPlaces]);
 
   useImperativeHandle(ref, () => ({
-    setAddressText: (address) => {
-      setStateText(address);
+    setAddressText: (address, refresh) => {
+      refresh = refresh || false;
+      if (refresh) {
+        _onChangeText(address);
+      } else {
+        setStateText(address);
+      }
     },
     getAddressText: () => stateText,
     blur: () => inputRef.current.blur(),
@@ -804,7 +808,9 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
           ListEmptyComponent={
             listLoaderDisplayed
               ? props.listLoaderComponent
-              : stateText.length > props.minLength && props.listEmptyComponent
+              : stateText.length > props.minLength ?
+                props.listEmptyComponent
+                : undefined
           }
           style={[
             props.suppressDefaultStyles ? {} : defaultStyles.listView,
@@ -1015,6 +1021,6 @@ FlatterList.propTypes = {
   keyExtractor: PropTypes.func,
   renderItem: PropTypes.func,
   renderSeparator: PropTypes.func,
-  ListEmptyComponent: PropTypes.func,
+  ListEmptyComponent: PropTypes.element,
   style: PropTypes.any
 }
