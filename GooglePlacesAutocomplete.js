@@ -24,52 +24,9 @@ import {
   View,
 } from 'react-native';
 
-const defaultStyles = {
-  container: {
-    flex: 1,
-  },
-  textInputContainer: {
-    flexDirection: 'row',
-  },
-  textInput: {
-    backgroundColor: '#FFFFFF',
-    height: 44,
-    borderRadius: 5,
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    fontSize: 15,
-    flex: 1,
-    marginBottom: 5,
-  },
-  listView: {},
-  row: {
-    backgroundColor: '#FFFFFF',
-    padding: 13,
-    minHeight: 44,
-    flexDirection: 'row',
-  },
-  loader: {
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-    height: 20,
-  },
-  description: {},
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#c8c7cc',
-  },
-  poweredContainer: {
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    borderBottomRightRadius: 5,
-    borderBottomLeftRadius: 5,
-    borderColor: '#c8c7cc',
-    borderTopWidth: 0.5,
-  },
-  powered: {},
-};
+export const GooglePlacesAutocomplete = forwardRef((passedProps, ref) => {
+  const props = { ...defaultProps, ...passedProps };
 
-export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
   let _results = [];
   let _requests = [];
 
@@ -886,62 +843,52 @@ export const GooglePlacesAutocomplete = forwardRef((props, ref) => {
   );
 });
 
-GooglePlacesAutocomplete.propTypes = {
-  autoFillOnNotFound: PropTypes.bool,
-  currentLocation: PropTypes.bool,
-  currentLocationLabel: PropTypes.string,
-  debounce: PropTypes.number,
-  disableScroll: PropTypes.bool,
-  enableHighAccuracyLocation: PropTypes.bool,
-  enablePoweredByContainer: PropTypes.bool,
-  fetchDetails: PropTypes.bool,
-  filterReverseGeocodingByTypes: PropTypes.array,
-  GooglePlacesDetailsQuery: PropTypes.object,
-  GooglePlacesSearchQuery: PropTypes.object,
-  GoogleReverseGeocodingQuery: PropTypes.object,
-  inbetweenCompo: PropTypes.object,
-  isRowScrollable: PropTypes.bool,
-  keyboardShouldPersistTaps: PropTypes.oneOf(['never', 'always', 'handled']),
-  listEmptyComponent: PropTypes.element,
-  listLoaderComponent: PropTypes.element,
-  listHoverColor: PropTypes.string,
-  listUnderlayColor: PropTypes.string,
-  // Must write it this way: https://stackoverflow.com/a/54290946/7180620
-  listViewDisplayed: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf(['auto']),
-  ]),
-  keepResultsAfterBlur: PropTypes.bool,
-  minLength: PropTypes.number,
-  nearbyPlacesAPI: PropTypes.string,
-  numberOfLines: PropTypes.number,
-  onFail: PropTypes.func,
-  onNotFound: PropTypes.func,
-  onPress: PropTypes.func,
-  onTimeout: PropTypes.func,
-  placeholder: PropTypes.string,
-  predefinedPlaces: PropTypes.array,
-  predefinedPlacesAlwaysVisible: PropTypes.bool,
-  preProcess: PropTypes.func,
-  query: PropTypes.object,
-  renderDescription: PropTypes.func,
-  renderHeaderComponent: PropTypes.func,
-  renderLeftButton: PropTypes.func,
-  renderRightButton: PropTypes.func,
-  renderRow: PropTypes.func,
-  requestUrl: PropTypes.shape({
-    url: PropTypes.string,
-    useOnPlatform: PropTypes.oneOf(['web', 'all']),
-    headers: PropTypes.objectOf(PropTypes.string),
-  }),
-  styles: PropTypes.object,
-  suppressDefaultStyles: PropTypes.bool,
-  textInputHide: PropTypes.bool,
-  textInputProps: PropTypes.object,
-  timeout: PropTypes.number,
+const defaultStyles = {
+  container: {
+    flex: 1,
+  },
+  textInputContainer: {
+    flexDirection: 'row',
+  },
+  textInput: {
+    backgroundColor: '#FFFFFF',
+    height: 44,
+    borderRadius: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    fontSize: 15,
+    flex: 1,
+    marginBottom: 5,
+  },
+  listView: {},
+  row: {
+    backgroundColor: '#FFFFFF',
+    padding: 13,
+    minHeight: 44,
+    flexDirection: 'row',
+  },
+  loader: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    height: 20,
+  },
+  description: {},
+  separator: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#c8c7cc',
+  },
+  poweredContainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    borderBottomRightRadius: 5,
+    borderBottomLeftRadius: 5,
+    borderColor: '#c8c7cc',
+    borderTopWidth: 0.5,
+  },
+  powered: {},
 };
 
-GooglePlacesAutocomplete.defaultProps = {
+const defaultProps = {
   autoFillOnNotFound: false,
   currentLocation: false,
   currentLocationLabel: 'Current location',
